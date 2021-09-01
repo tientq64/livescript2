@@ -1,5 +1,10 @@
+# 1.0.4
+- Tạo trang web để biên dịch và chạy thử code
+- Tạo [repo](https://github.com/tiencoffee/livescript2) trên Github
+- Sửa flags RegExp từ [dgimsuy]{1,6} -> [dgimsuy]{1,7}
+
 # 1.0.3
-- Thêm hỗ trợ dấu ngoặc nhọn cho \u, phạm vi từ \u{0} -> \u{10ffff}.
+- Thêm hỗ trợ dấu ngoặc nhọn cho \u, phạm vi từ \u{0} -> \u{10ffff}
 
 # 1.0.2
 - Thêm once vào event DOMContentLoaded

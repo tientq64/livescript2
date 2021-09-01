@@ -1,0 +1,67 @@
+*, *:before, *:after
+	box-sizing border-box
+:focus
+	outline 0
+body
+	margin 0
+	font-family "PragmataPro Mono"
+	font-size 15px
+	color #fff
+	user-select none
+label
+	display inline-flex
+	column-gap 8px
+	align-items center
+	&:not(:first-child)
+		margin-left 8px
+input[type=checkbox]
+input[type=radio]
+	width 16px
+	height 16px
+	margin 0
+#main
+	position absolute
+	left 0
+	top 0
+	width 100%
+	height 100%
+	display flex
+	flex-direction column
+	overflow hidden
+#topbar
+	padding 8px 24px
+	display flex
+	align-items center
+#logo
+	margin 0 32px 0 0
+#note
+	flex 1
+	text-align right
+#content
+	border-top solid 1px #0c0f17
+	display flex
+	flex 1
+	overflow hidden
+#editorEl + .CodeMirror
+	border-right solid 1px #0c0f17
+.CodeMirror
+	width 50%
+	height 100%
+	font inherit
+.CodeMirror
+.CodeMirror-gutters
+	background #232834 !important
+.CodeMirror-linenumbers
+	width 48px
+.CodeMirror-linenumber
+	padding-right 7px
+	box-sizing border-box
+.CodeMirror-cursor
+	margin-left -1px
+	border-left-width 2px !important
+.CodeMirror-lines
+	padding 8px 0
+	> :first-child > :nth-child(3)
+		filter drop-shadow(-1px 0 #151921)drop-shadow(1px 0 #151921)drop-shadow(0 -1px #151921)drop-shadow(0 1px #151921)
+.CodeMirror-selected
+	background #333c4f !important

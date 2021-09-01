@@ -5645,7 +5645,7 @@ exports.doHeregex = function(code, index){
 	tokens = this.tokens, last = this.last;
 	parts = this.interpolate(code, index, '//');
 	rest = code.slice(index + parts.size);
-	flag = this.validate(/^(?:[dgimsuy]{1,6}|[?$]?)/.exec(rest)[0]);
+	flag = this.validate(/^(?:[dgimsuy]{1,7}|[?$]?)/.exec(rest)[0]);
 	if (parts[1]) {
 		if (flag === '$') {
 			this.adi();
@@ -6985,7 +6985,7 @@ JSTOKEN = /``[^\\`]*(?:\\[\s\S][^\\`]*)*``|/g;
 BSTOKEN = RegExp('\\\\(?:(\\S[^\\s,;)}\\]]*)|(?:' + SPACE.source + '\\n?)*)', 'g');
 NUMBER = /0x[\dA-Fa-f][\dA-Fa-f_]*n?|(\d*)~([\dA-Za-z]\w*)|\d[\d_]*n|((\d[\d_]*)(\.\d[\d_]*)?(?:e[+-]?\d[\d_]*)?)[$\w]*|/g;
 NUMBER_OMIT = /_+/g;
-REGEX = /\/([^[\/\n\\]*(?:(?:\\.|\[[^\]\n\\]*(?:\\.[^\]\n\\]*)*\])[^[\/\n\\]*)*)\/([dgimsuy]{1,6}|\$?)|/g;
+REGEX = /\/([^[\/\n\\]*(?:(?:\\.|\[[^\]\n\\]*(?:\\.[^\]\n\\]*)*\])[^[\/\n\\]*)*)\/([dgimsuy]{1,7}|\$?)|/g;
 HEREGEX_OMIT = /\s+(?:#.*)?/g;
 LASTDENT = /\n[^\n\S]*$/;
 INLINEDENT = /[^\n\S]*[^#\s]?/g;
