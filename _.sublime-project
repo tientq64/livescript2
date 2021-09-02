@@ -6,6 +6,9 @@
 	}],
 	"settings": {},
 	"build_systems": [{
+		"name": "Dev",
+		"shell_cmd": "taskkill -f -im node.exe & cd $folder && live-server -q --host=localhost --port=5500 --no-browser"
+	}, {
 		"name": "Minify",
 		"shell_cmd": "npm run min"
 	}, {

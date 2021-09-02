@@ -4,7 +4,7 @@
 	outline 0
 body
 	margin 0
-	font-family "PragmataPro Mono"
+	font-family "PragmataPro Mono","Consolas",monospace
 	font-size 15px
 	color #fff
 	user-select none
@@ -65,3 +65,14 @@ input[type=radio]
 		filter drop-shadow(-1px 0 #151921)drop-shadow(1px 0 #151921)drop-shadow(0 -1px #151921)drop-shadow(0 1px #151921)
 .CodeMirror-selected
 	background #333c4f !important
+.cm-tab
+	position relative
+	border-left dotted 1px #333c4f
+	&:after
+		content ""
+		position absolute
+		left 0
+		top 0
+		width calc(100% - 1px)
+		height 50%
+		border-bottom solid 1px #232834

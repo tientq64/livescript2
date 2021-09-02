@@ -1,3 +1,7 @@
+# 1.0.5
+- Sửa hàm clone$ (toán tử ^^) về như ban đầu
+- Thêm icon cho trang web
+
 # 1.0.4
 - Tạo trang web để biên dịch và chạy thử code
 - Tạo [repo](https://github.com/tiencoffee/livescript2) trên Github

@@ -4941,7 +4941,7 @@ function THIS(){
 }
 function VOID(){}
 UTILS = {
-	clone: 'function(it){\n  return Object.assign({}, it);\n}',
+	clone: 'function(it){\n  function fun(){} fun.prototype = it;\n  return new fun;\n}',
 	extend: "function(sub, sup){\n  function fun(){} fun.prototype = (sub.superclass = sup).prototype;\n  (sub.prototype = new fun).constructor = sub;\n  if (typeof sup.extended == 'function') sup.extended(sub);\n  return sub;\n}",
 	bind: 'function(obj, key, target){\n  return function(){ return (target || obj)[key].apply(obj, arguments) };\n}',
 	'import': 'function(obj, src){\n  return Object.assign(obj, src);\n}',
