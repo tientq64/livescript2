@@ -1,6 +1,6 @@
 {
 	"name": "livescript2",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"main": "livescript.min.js",
 	"scripts": {
 		"min": "uglifyjs livescript.js --ecma 8 -c unsafe_methods,unsafe_proto -m -o livescript.min.js",

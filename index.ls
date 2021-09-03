@@ -12,10 +12,12 @@ else
 			header: yes
 			const: no
 			json: no
+		org: no
 
 compile = !->
+	method = opts.org and livescriptOrg or livescript
 	try
-		code = livescript.compile opts.code, ^^opts.compile
+		code = method.compile opts.code, {...opts.compile}
 	catch
 		code = e + ""
 	result.setValue code
@@ -26,6 +28,12 @@ saveOpts = !->
 onchangeOptsCompile = (event) !->
 	{target} = event
 	opts.compile[target.name] = target.checked
+	saveOpts!
+	compile!
+
+onchangeOpts = (event) !->
+	{target} = event
+	opts[target.name] = target.checked
 	saveOpts!
 	compile!
 
@@ -46,8 +54,9 @@ addEventListener \keydown (event) !->
 	switch event.code
 	| \F1
 		event.preventDefault!
+		method = opts.org and livescriptOrg or livescript
 		try
-			livescript.run opts.code, opts.compile
+			method.run opts.code, opts.compile
 		catch
 			console.error e
 
@@ -75,5 +84,8 @@ const2.onchange = onchangeOptsCompile
 
 json.checked = opts.compile.json
 json.onchange = onchangeOptsCompile
+
+org.checked = opts.org
+org.onchange = onchangeOpts
 
 compile!

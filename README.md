@@ -1,3 +1,7 @@
+# 1.0.6
+- Thêm tùy chọn "Phiên bản gốc" trong trang web
+- Sửa lỗi chạy code trong trang web
+
 # 1.0.5
 - Sửa hàm clone$ (toán tử ^^) về như ban đầu
 - Thêm icon cho trang web
