@@ -1,7 +1,13 @@
 {
 	"name": "livescript2",
-	"version": "1.0.6",
+	"version": "1.1.9",
 	"main": "livescript.min.js",
+	"bin": {
+		"ls2": "cli.js"
+	},
+	"dependencies": {
+		"yargs": ""
+	},
 	"scripts": {
 		"min": "uglifyjs livescript.js --ecma 8 -c unsafe_methods,unsafe_proto -m -o livescript.min.js",
 		"test": "node test.js"

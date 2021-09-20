@@ -1,3 +1,12 @@
+# 1.1.9
+- Ko xóa ID_INTERPOLATE trong cli nữa
+
+# 1.1.1
+- Sửa compile code livescript từ bare true thành false trong cli
+
+# 1.1.0
+- Thêm cli chạy code livescript
+
 # 1.0.6
 - Thêm tùy chọn "Phiên bản gốc" trong trang web
 - Sửa lỗi chạy code trong trang web
