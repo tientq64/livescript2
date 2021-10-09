@@ -1,3 +1,6 @@
+# 1.1.11
+- Sửa index.ls
+
 # 1.1.10
 - Thêm trường "files" trong package.json
 

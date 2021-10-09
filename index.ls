@@ -83,14 +83,14 @@ result = CodeMirror.fromTextArea resultEl,
 # 	readOnly: yes
 # 	undoDepth: 1
 
-parser = CodeMirror.fromTextArea parserEl,
-	mode: \application/json
-	theme: \monokai
-	tabSize: 2
-	lineWrapping: yes
-	lineNumbers: yes
-	readOnly: yes
-	undoDepth: 1
+# parser = CodeMirror.fromTextArea parserEl,
+# 	mode: \application/json
+# 	theme: \monokai
+# 	tabSize: 2
+# 	lineWrapping: yes
+# 	lineNumbers: yes
+# 	readOnly: yes
+# 	undoDepth: 1
 
 bare.checked = opts.compile.bare
 bare.onchange = onchangeOptsCompile
@@ -165,49 +165,49 @@ do compile = !->
 	catch
 		code = e + ""
 	result.setValue code
-	try
-		tokens = method[opts.parse] opts.code
-		if opts.parse is \ast
-			texts = tokens + ""
-		else
-			texts = []
-			for token in tokens
-				text = []
-				for k, val of token
-					str = (val + "")replace /\n/g \\\n
-					if k < 2
-						if k is \0
-							str .= padEnd 8 " "
-						else
-							if typeof val is \string
-								str = "'#str'"
-							else if val instanceof String
-								str = str.constructor.name.substring(0 3) + "'#str'"
-								for k2, val2 of val
-									if isNaN k2
-										if val2 is yes
-											str += " #k2"
-										else if typeof val2 is \string
-											str += " #k2:'#val2'"
-										else
-											str += " #k2:#val2"
-							str .= padEnd 18 " "
-						text.push str
-					else if k > 1
-						str .= padEnd 2 " "
-						text.push str
-					else
-						if val is yes
-							text.push k
-						else if typeof val2 is \string
-							text.push "#k:'#val'"
-						else
-							text.push "#k:#val"
-				texts.push text * " "
-			texts *= \\n
-		parser.setValue texts
-	catch
-		parser.setValue e + ""
+	# try
+	# 	tokens = method[opts.parse] opts.code
+	# 	if opts.parse is \ast
+	# 		texts = tokens + ""
+	# 	else
+	# 		texts = []
+	# 		for token in tokens
+	# 			text = []
+	# 			for k, val of token
+	# 				str = (val + "")replace /\n/g \\\n
+	# 				if k < 2
+	# 					if k is \0
+	# 						str .= padEnd 8 " "
+	# 					else
+	# 						if typeof val is \string
+	# 							str = "'#str'"
+	# 						else if val instanceof String
+	# 							str = str.constructor.name.substring(0 3) + "'#str'"
+	# 							for k2, val2 of val
+	# 								if isNaN k2
+	# 									if val2 is yes
+	# 										str += " #k2"
+	# 									else if typeof val2 is \string
+	# 										str += " #k2:'#val2'"
+	# 									else
+	# 										str += " #k2:#val2"
+	# 						str .= padEnd 18 " "
+	# 					text.push str
+	# 				else if k > 1
+	# 					str .= padEnd 2 " "
+	# 					text.push str
+	# 				else
+	# 					if val is yes
+	# 						text.push k
+	# 					else if typeof val2 is \string
+	# 						text.push "#k:'#val'"
+	# 					else
+	# 						text.push "#k:#val"
+	# 			texts.push text * " "
+	# 		texts *= \\n
+	# 	parser.setValue texts
+	# catch
+	# 	parser.setValue e + ""
 	# try
 	# 	code = compile2 tokens, {...opts.compile}
 	# catch
