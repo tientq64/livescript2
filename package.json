@@ -1,15 +1,21 @@
 {
 	"name": "livescript2",
-	"version": "1.1.9",
+	"version": "1.1.10",
 	"main": "livescript.min.js",
 	"bin": {
 		"ls2": "cli.js"
 	},
+	"files": [
+		"livescript.min.js",
+		"cli.js"
+	],
+	"repository": "github:tiencoffee/livescript2",
 	"dependencies": {
 		"yargs": ""
 	},
 	"scripts": {
 		"min": "uglifyjs livescript.js --ecma 8 -c unsafe_methods,unsafe_proto -m -o livescript.min.js",
 		"test": "node test.js"
-	}
+	},
+	"license": "MIT"
 }

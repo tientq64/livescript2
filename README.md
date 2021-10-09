@@ -1,3 +1,6 @@
+# 1.1.10
+- Thêm trường "files" trong package.json
+
 # 1.1.9
 - Ko xóa ID_INTERPOLATE trong cli nữa
 

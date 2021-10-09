@@ -16,8 +16,8 @@ label
 		margin-left 8px
 input[type=checkbox]
 input[type=radio]
-	width 16px
-	height 16px
+	min-width 16px
+	min-height 16px
 	margin 0
 #main
 	position absolute
@@ -39,13 +39,19 @@ input[type=radio]
 	text-align right
 #content
 	border-top solid 1px #0c0f17
-	display flex
 	flex 1
+	background #0c0f17
 	overflow hidden
-#editorEl + .CodeMirror
-	border-right solid 1px #0c0f17
+.row
+.column
+	display flex
+	gap 1px
+.column
+	flex-direction column
+.col
+	flex 1
 .CodeMirror
-	width 50%
+	width 100%
 	height 100%
 	font inherit
 .CodeMirror
