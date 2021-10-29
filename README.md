@@ -1,3 +1,6 @@
+# 1.1.12
+- Thêm dấu ";" vào trc hàm bọc cao nhất
+
 # 1.1.11
 - Sửa index.ls
 

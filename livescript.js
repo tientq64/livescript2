@@ -726,7 +726,7 @@ exports.Block = Block = (function(superclass){
 			}
 		}
 		code = [this.compileWithDeclarations(o)];
-		bare || (code = ["(async function(){\n"].concat(arrayFrom$(code), ["\n}).call(this);\n"]));
+		bare || (code = [";(async function(){\n"].concat(arrayFrom$(code), ["\n}).call(this);\n"]));
 		return sn(null, prefix || [], options.header || [], comment || [], code);
 	};
 	Block.prototype.compileWithDeclarations = function(o){
