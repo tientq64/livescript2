@@ -1,3 +1,20 @@
+for let vvv, iii in arr
+	if vvv is 1 and iii is 2
+		break
+	else
+		vvv = vvv.trim!
+for let kaka, val of obj
+	123
+	let gc = 1
+		45
+	kaka += 1
+for let kaka of obj
+	123
+for let , val of obj
+	123
+for let own a of b
+	c a
+var xz
 t = 4
 b = await import \https://cdn.skypack.dev/@octokit/rest
 import * from \https://cdn.skypack.dev/@octokit/rest
@@ -9,7 +26,10 @@ do !->
 	if a = b
 		789
 	"\u0065ag\u4E0dr\u{45}v\u{1f5c6}\u{ffff}fm\xa0 \041"
-	asd = mi (a = 8, ...c) !~>
+	asd = mi (a = 8, {b: [...a]}, ...c) !~>
+		c++
+		c = 4
+		[v, ...d] = c
 		@4sd"á   d-jk\t\\😙""mHK"\kk'sad"'"sd"
 		@ab-45/a/iv
 		"bear #ab-78ao-o"
@@ -75,11 +95,11 @@ do !->
 		(?<=^[A-Z][a-z]+\s[-a-z]\.\s*)[-a-z]+
 	//
 	//rt//mi
-	a = "
+	aa = "
 		h   ho
 		jk
 	"
-	a = """
+	aa = aa + """
 		h   ho
 		jk
 	"""

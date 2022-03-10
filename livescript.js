@@ -4113,7 +4113,7 @@ exports.For = For = (function(superclass){
 			}
 		}
 		this['else'] && (this.yet = o.scope.temporary('yet'));
-		head = [sn(this, 'for (')];
+		head = [sn(this, this.let ? 'for (let ' : 'for (')];
 		if (this.object) {
 			head.push(idx, " in ");
 		}
@@ -4829,6 +4829,7 @@ ref$.READ_ONLY = {
 };
 ref$.add = function(name, type, node){
 	var t, that;
+	name = name.replace(/^\.\.\./, "")
 	if (node && (t = this.variables[name + "."])) {
 		if (that = this.READ_ONLY[t] || this.READ_ONLY[type]) {
 			node.carp("redeclaration of " + that + " \"" + name + "\"");
@@ -5060,7 +5061,7 @@ parser.lexer = {
 bufferFrom = Buffer.alloc && Buffer.from || function(it){
 	return new Buffer(it);
 };
-exports.VERSION = '1.6.1';
+exports.VERSION = '1.2.0';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, ref$, mapPath, e, that;
 	code = code.replace(/(?<=^|\n)\t+/g, s => '  '.repeat(s.length))

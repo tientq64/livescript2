@@ -1,3 +1,6 @@
+# 1.2.0
+- Sửa lỗi chưa khai báo khi tham số hàm đc compile dưới dạng spread
+
 # 1.1.12
 - Thêm dấu ";" vào trc hàm bọc cao nhất
 
