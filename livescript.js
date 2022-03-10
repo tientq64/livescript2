@@ -4828,21 +4828,21 @@ ref$.READ_ONLY = {
 	undefined: 'undeclared'
 };
 ref$.add = function(name, type, node){
-	var t, that;
-	name = name.replace(/^\.\.\./, "")
-	if (node && (t = this.variables[name + "."])) {
+	var t, u, that;
+	u = name.replace(/^\.\.\./, "")
+	if (node && (t = this.variables[u + "."])) {
 		if (that = this.READ_ONLY[t] || this.READ_ONLY[type]) {
-			node.carp("redeclaration of " + that + " \"" + name + "\"");
+			node.carp("redeclaration of " + that + " \"" + u + "\"");
 		} else if (t === type && type === 'arg') {
-			node.carp("duplicate parameter \"" + name + "\"");
+			node.carp("duplicate parameter \"" + u + "\"");
 		} else if (t === 'upvar') {
-			node.carp("accidental shadow of \"" + name + "\"");
+			node.carp("accidental shadow of \"" + u + "\"");
 		}
 		if (t === 'arg' || t === 'function') {
 			return name;
 		}
 	}
-	this.variables[name + "."] = type;
+	this.variables[u + "."] = type;
 	return name;
 };
 ref$.get = function(name){
@@ -5061,7 +5061,7 @@ parser.lexer = {
 bufferFrom = Buffer.alloc && Buffer.from || function(it){
 	return new Buffer(it);
 };
-exports.VERSION = '1.2.0';
+exports.VERSION = '1.2.1';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, ref$, mapPath, e, that;
 	code = code.replace(/(?<=^|\n)\t+/g, s => '  '.repeat(s.length))

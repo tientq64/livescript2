@@ -1,3 +1,6 @@
+# 1.2.1
+- Sửa lỗi tham số spread của hàm bị mất dấu "..."
+
 # 1.2.0
 - Sửa lỗi chưa khai báo khi tham số hàm đc compile dưới dạng spread
 
