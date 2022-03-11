@@ -1,3 +1,6 @@
+# 1.3.0
+- Loại bỏ nhiều thư viện cục bộ k cần thiết, chủ yếu là mấy cái polyfill nodejs, prelude, vv.
+
 # 1.2.2
 - Sửa lỗi heregex khi trong comment gặp biến interpolate sẽ phân tích như regex; 1 dấu \ ở cuối bây h để đánh dấu để biết trailing space kết thúc ở đâu
 
