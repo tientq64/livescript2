@@ -83,10 +83,23 @@ do !->
 	num %%= 8 + hex
 	regex = /asdm78*(?=sd).+\//gsuo
 	//
-		h   as|[ ]    # hasid
-		ij #@aj\nkk\t
-		mo\
-		@a #@regex
+		h \  a\s|[ ]  \   # hasid
+		zzz#hi   # ygd #{
+			cuc /
+			400 - 1.4
+		}#
+		i\j #@aj\nkk\t
+		#{}
+		ok \# haaha-
+		#123
+		# 456
+		q#A
+		q# B
+		q #C
+		q # D
+		mo   \
+		Zasxx # @saw41name ero #zwe \tname # sdd #erer #)9
+		@a #@regex as
 	//g
 	//
 		(?<=^[A-Z]\.\s*[a-z-]+\s)[a-z-]+|

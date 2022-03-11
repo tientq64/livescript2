@@ -5061,7 +5061,7 @@ parser.lexer = {
 bufferFrom = Buffer.alloc && Buffer.from || function(it){
 	return new Buffer(it);
 };
-exports.VERSION = '1.2.1';
+exports.VERSION = '1.2.2';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, ref$, mapPath, e, that;
 	code = code.replace(/(?<=^|\n)\t+/g, s => '  '.repeat(s.length))
@@ -6160,7 +6160,7 @@ exports.parameters = function(arrow, offset){
 	}
 };
 exports.interpolate = function(str, idx, end){
-	var parts, end0, pos, i, ref$, oldLine, oldColumn, ch, c1, id, stringified, length, tag, e, delta, nested, clone, ref1$;
+	var parts, end0, pos, i, ref$, oldLine, oldColumn, ch, c1, ll, id, stringified, length, tag, e, delta, nested, clone, ref1$;
 	parts = [];
 	end0 = end.charAt(0);
 	pos = 0;
@@ -6181,6 +6181,10 @@ exports.interpolate = function(str, idx, end){
 			c1 = str.charAt(i + 1);
 			id = (ID_INTERPOLATE.lastIndex = i + 1, ID_INTERPOLATE).exec(str)[1];
 			if (!(id || c1 === '{')) {
+				if (end === '//') {
+					ll = str.indexOf('\n', i);
+					i = ll;
+				}
 				continue;
 			}
 			break;
@@ -6429,14 +6433,15 @@ camelize = function(it){
 	});
 };
 deheregex = function(it){
-	return it.replace(/(\\)?\n\s*|\s+(?:#.*)|\n$/g, function(arg$, bs){
-		bs || (bs = '');
-		if ('\\' === bs) {
-			return '\\n';
-		} else {
-			return bs;
-		}
-	});
+	return it.replace(/ +#.*|^ +|\\(?= )|\\?\n+/gm, "")
+	// return it.replace(/(\\)?\n\s*|\s+(?:#.*)|\n$/g, function(arg$, bs){
+	// 	bs || (bs = '');
+	// 	if ('\\' === bs) {
+	// 		return '';
+	// 	} else {
+	// 		return bs;
+	// 	}
+	// });
 };
 function lchomp(it){
 	return it.slice(1 + it.lastIndexOf('\n', 0));
@@ -12093,7 +12098,7 @@ prelude.even = Num.even;
 prelude.odd = Num.odd;
 prelude.gcd = Num.gcd;
 prelude.lcm = Num.lcm;
-prelude.VERSION = '1.2.1';
+prelude.VERSION = '1.2.2';
 module.exports = prelude;
 function curry$(f, bound){
 	var context,

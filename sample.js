@@ -142,7 +142,7 @@
     num /= Math.ceil(41 + 3);
     num = ((num) % (ref$ = 8 + hex) + ref$) % ref$;
     regex = /asdm78*(?=sd).+\//gsu.o;
-    RegExp('h   as|[ ]ij ' + this.aj + '\\nkk\\tmo\\n@a ' + this.regex, 'g');
+    RegExp('h   a\\s|[ ]  zzz' + hi + 'cuc /400 - 1.4}#i\\j ' + this.aj + '\\nkk\\t' + 'ok \\# haaha-q' + A + 'q# Bq ' + C + 'qmo   Zasxx@a ' + this.regex + 'as', 'g');
     /(?<=^[A-Z]\.\s*[a-z-]+\s)[a-z-]+|(?<=^[A-Z]\.\s*[-a-z]\.\s*)[-a-z]+|(?<=^[A-Z][a-z]+\s[-a-z]+\s)[-a-z]+|(?<=^[A-Z][a-z]+\s[-a-z]\.\s*)[-a-z]+/;
     /rt/mi;
     aa = "h   hojk";
