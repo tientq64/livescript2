@@ -1,3 +1,7 @@
+# 1.4.0
+- Sửa và điều chỉnh lại cú pháp comment trong heregex có thể gây ra lỗi vòng lặp vô hạn
+- Sửa interpolate bây h có thể là chỉ @ hoặc chỉ một chữ số
+
 # 1.3.0
 - Loại bỏ nhiều thư viện cục bộ k cần thiết, chủ yếu là mấy cái polyfill nodejs, prelude, vv.
 
