@@ -4962,7 +4962,7 @@ parser.lexer = {
 		return '';
 	}
 };
-exports.VERSION = '1.4.1';
+exports.VERSION = '1.4.2';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, mapPath, base64;
 	code = code.replace(/(?<=^|\n)\t+/g, s => '  '.repeat(s.length))
