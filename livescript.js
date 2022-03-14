@@ -787,7 +787,7 @@ exports.Literal = Literal = (function(superclass){
 		return (ref$ = this.value) === 'this' || ref$ === 'eval' || ref$ === '..';
 	};
 	Literal.prototype.isString = function(){
-		return !'\'"'.indexOf((this.value + "")[0]);
+		return '\'"'.indexOf((this.value + "")[0]) >= 0;
 	};
 	Literal.prototype.isRegex = function(){
 		return (this.value + "")[0] === '/';
@@ -4962,7 +4962,7 @@ parser.lexer = {
 		return '';
 	}
 };
-exports.VERSION = '1.4.0';
+exports.VERSION = '1.4.1';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, mapPath, base64;
 	code = code.replace(/(?<=^|\n)\t+/g, s => '  '.repeat(s.length))

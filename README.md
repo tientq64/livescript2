@@ -1,3 +1,6 @@
+# 1.4.1
+- Sửa lại hàm Literal.prototype.isString phát hiện sai
+
 # 1.4.0
 - Sửa và điều chỉnh lại cú pháp comment trong heregex có thể gây ra lỗi vòng lặp vô hạn
 - Sửa interpolate bây h có thể là chỉ @ hoặc chỉ một chữ số
