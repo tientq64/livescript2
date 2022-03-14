@@ -1,3 +1,6 @@
+# 1.4.2
+- Quên chưa build code 1.4.1
+
 # 1.4.1
 - Sửa lại hàm Literal.prototype.isString phát hiện sai
 
