@@ -1,3 +1,8 @@
+# 1.4.3
+- Sửa compile hàm static trong class k đúng
+- Hàm mũi tên nếu có một tham số và k phải là spread thì tham số sẽ k có cặp dấu ngoặc
+- Hàm dạng (+) sẽ bỏ gọi hàm bọc curry$ (k biết gọi hàm bọc để làm gì)
+
 # 1.4.2
 - Quên chưa build code 1.4.1
 

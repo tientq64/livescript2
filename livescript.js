@@ -1917,7 +1917,7 @@ exports.Unary = Unary = (function(superclass){
 				break;
 			case '~':
 				if (it instanceof Fun && it.statement && !it.bound) {
-					return it.bound = 'this$', it;
+					return it.bound = 'this', it;
 				}
 				break;
 			case 'do':
@@ -3085,7 +3085,7 @@ exports.Fun = Fun = (function(superclass){
 		var this$ = this instanceof ctor$ ? this : new ctor$;
 		this$.params = params || [];
 		this$.body = body || Block();
-		this$.bound = bound && 'this$';
+		this$.bound = bound && 'this';
 		this$.curried = curried || false;
 		this$.hushed = hushed != null ? hushed : false;
 		this$.generator = generator != null ? generator : false;
@@ -3121,8 +3121,7 @@ exports.Fun = Fun = (function(superclass){
 		this.name || (this.name = it.varName());
 	};
 	Fun.prototype.compileNode = function(o){
-		var pscope, sscope, scope, that, inLoop, ref$, body, name, tab, code, bodyCode, curryCodeCheck, this$ = this, isBound = this.bound === 'this$';
-		this.bound = false;
+		var pscope, sscope, scope, that, inLoop, ref$, body, name, tab, code, bodyCode, curryCodeCheck, this$ = this, isBound = this.bound === 'this', param;
 		pscope = o.scope;
 		sscope = pscope.shared || pscope;
 		scope = o.scope = this.body.scope = new Scope(this.wrapper ? pscope : sscope, this.wrapper && sscope);
@@ -3168,12 +3167,12 @@ exports.Fun = Fun = (function(superclass){
 		}
 		if (isBound) {
 			if (this.ctor) {
-				scope.assign('this$', 'this instanceof ctor$ ? this : new ctor$');
-				body.lines.push(Return(Literal('this$')));
+				scope.assign('this', 'this instanceof ctor$ ? this : new ctor$');
+				body.lines.push(Return(Literal('this')));
 			} else if (that = (ref$ = sscope.fun) != null ? ref$.bound : void 8) {
 				this.bound = that;
 			// } else if (this.usesThis()) {
-			// 	sscope.assign('this$', 'this');
+			// 	sscope.assign('this', 'this');
 			}
 		}
 		if (this.statement) {
@@ -3186,7 +3185,13 @@ exports.Fun = Fun = (function(superclass){
 			code.push(' ', scope.add(name, 'function', this));
 		}
 		this.hushed || this.ctor || this.newed || body.makeReturn();
-		code.push("(", this.compileParams(o, scope), ")");
+		param = this.compileParams(o, scope);
+		if (isBound && param.children.length === 1 && !param.children[0].startsWith('...')) {
+			code.push(param);
+		}
+		else {
+			code.push("(", param, ")");
+		}
 		if (isBound) {
 			code.push(' => ');
 		}
@@ -3202,9 +3207,9 @@ exports.Fun = Fun = (function(superclass){
 			}
 			if (this$.curried && this$.params.length > 1 && !this$.classBound) {
 				if (this$.bound) {
-					return [util('curry'), "(("].concat(arrayFrom$(code), ["), true)"]);
+					return ['((', code, '), true)'];
 				} else {
-					return [util('curry'), "("].concat(arrayFrom$(code), [")"]);
+					return ['(', code, ')'];
 				}
 			} else {
 				return code;
@@ -4962,7 +4967,7 @@ parser.lexer = {
 		return '';
 	}
 };
-exports.VERSION = '1.4.2';
+exports.VERSION = '1.4.3';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, mapPath, base64;
 	code = code.replace(/(?<=^|\n)\t+/g, s => '  '.repeat(s.length))
