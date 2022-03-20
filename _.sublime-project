@@ -6,13 +6,13 @@
 	}],
 	"settings": {},
 	"build_systems": [{
-		"name": "Dev",
-		"shell_cmd": "taskkill -f -im node.exe & cd $folder && live-server -q --host=localhost --port=5500 --no-browser"
-	}, {
-		"name": "Minify",
-		"shell_cmd": "npm run min"
-	}, {
-		"name": "Test",
-		"shell_cmd": "node $folder/test.js"
+		"name": "Build",
+		"shell_cmd": "taskkill -f -im node.exe & cd $folder && uglifyjs livescript.js --ecma 8 -c unsafe_methods,unsafe_proto -m -o livescript.min.js && echo 'Built' && live-server -q --host=localhost --port=5500 --no-browser"
+	// }, {
+	// 	"name": "Minify",
+	// 	"shell_cmd": "npm run min"
+	// }, {
+	// 	"name": "Test",
+	// 	"shell_cmd": "node $folder/test.js"
 	}]
 }

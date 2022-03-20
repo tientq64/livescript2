@@ -3977,16 +3977,13 @@ exports.For = For = (function(superclass){
 	};
 	For.prototype.isNextUnreachable = NO;
 	For.prototype.compileNode = function(o){
-		var temps, idx, ref$, pvar, step, tvar, tail, fvar, vars, eq, cond, svar, srcPart, lvar, head, that, body;
+		var temps, idx, ref$, pvar, step, tvar, tail, fvar, vars, eq, cond, svar, srcPart, lvar, head, that, body, isCharArr, sfvar, stvar, cfvar, ctvar;
 		o.loop = true;
 		temps = this.temps = [];
 		if (this.object && this.index) {
 			o.scope.declare(idx = this.index);
 		} else {
 			temps.push(idx = o.scope.temporary('i'));
-		}
-		if (!this.body) {
-			this.addBody(Block(Var(idx)));
 		}
 		if (!this.object) {
 			ref$ = (this.step || Literal(1)).compileLoopReference(o, 'step'), pvar = ref$[0], step = ref$[1];
@@ -3998,18 +3995,26 @@ exports.For = For = (function(superclass){
 			}
 			ref$ = this.to.compileLoopReference(o, 'to'), tvar = ref$[0], tail = ref$[1];
 			fvar = this.from.compile(o, LEVEL_LIST);
-			vars = idx + " = " + fvar;
+			sfvar = fvar + '';
+			stvar = tvar + '';
+			if (isCharArr = '"\''.includes(sfvar[0]) && '"\''.includes(stvar[0]) && +pvar) {
+				cfvar = Function("return " + sfvar)();
+				ctvar = Function("return " + stvar)();
+			}
+			vars = idx + " = " + (isCharArr ? cfvar.charCodeAt() : sfvar);
 			if (tail !== tvar) {
 				vars += ", " + tail;
 				temps.push(tvar);
 			}
-			if (!this.step && +fvar > +tvar) {
-				pvar = step = -1;
+			if (!this.step) {
+				if (isCharArr && cfvar > ctvar || !isCharArr && +fvar > +tvar) {
+					pvar = step = -1;
+				}
 			}
 			eq = this.op === 'til' ? '' : '=';
 			cond = +pvar
-				? idx + " " + '<>'.charAt(pvar < 0) + eq + " " + tvar
-				: pvar + " < 0 ? " + idx + " >" + eq + " " + tvar + " : " + idx + " <" + eq + " " + tvar;
+				? idx + " " + '<>'.charAt(pvar < 0) + eq + " " + (isCharArr ? ctvar.charCodeAt() : stvar)
+				: pvar + " < 0 ? " + idx + " >" + eq + " " + stvar + " : " + idx + " <" + eq + " " + stvar;
 		} else {
 			if (this.ref) {
 				this.item = Var(o.scope.temporary('x'));
@@ -4030,6 +4035,9 @@ exports.For = For = (function(superclass){
 					cond = idx + " < " + lvar;
 				}
 			}
+		}
+		if (!this.body) {
+			this.addBody(Block(Var(isCharArr ? 'String.fromCharCode(' + idx + ')' : idx)));
 		}
 		this['else'] && (this.yet = o.scope.temporary('yet'));
 		head = [sn(this, this.let ? 'for (let ' : 'for (')];
@@ -4064,7 +4072,7 @@ exports.For = For = (function(superclass){
 		}
 		o.indent += TAB;
 		if (this.index && !this.object) {
-			head.push('\n' + o.indent, Assign(Var(this.index), JS(idx)).compile(o, LEVEL_TOP), ';');
+			head.push('\n' + o.indent, Assign(Var(this.index), JS(isCharArr ? 'String.fromCharCode(' + idx + ')' : idx)).compile(o, LEVEL_TOP), ';');
 		}
 		if (this.item && !this.item.isEmpty() && !this.from) {
 			head.push('\n' + o.indent, Assign(this.item, JS(svar + "[" + idx + "]")).compile(o, LEVEL_TOP), ';');
@@ -6355,17 +6363,18 @@ function decode(val, lno){
 function uxxxx(it){
 	return '"\\u' + ('000' + it.toString(16)).slice(-4) + '"';
 }
-character = typeof JSON == 'undefined' || JSON === null
-	? uxxxx
-	: function(it){
+character = JSON
+	? function(it){
 		switch (it) {
 		case 0x2028:
 		case 0x2029:
 			return uxxxx(it);
 		default:
-			return JSON.stringify(String.fromCharCode(it));
+			return JSON.stringify(String.fromCharCode(it))
+				.replace(/\\u000([0-7])/, '\\$1')
+				.replace('\\u00', '\\x');
 		}
-	};
+	} : uxxxx;
 function firstPass(tokens){
 	var prev, i, token, tag, val, line, column, next, parens, i$, j, ts, ref$;
 	prev = ['NEWLINE', '\n', 0];
@@ -6717,13 +6726,13 @@ function addImplicitBraces(tokens){
 	}
 }
 function expandLiterals(tokens){
-	var i, fromNum, token, sig, ref$, ref1$, ref2$, lno, cno, ref3$, ref4$, char, toNum, tochar, byNum, byp, ref5$, ts, enc, add, i$, n, ref6$, ref7$, len$, word, that;
+	var i, fromNum, token, sig, ref$, ref1$, ref2$, lno, cno, ref3$, ref4$, char, toNum, tochar, byNum, byp, ref5$, ts, enc, add, i$, n, ref6$, ref7$, len$, word, that, isLoop = true, guessLen;
 	i = 0;
 	while (token = tokens[++i]) {
 		switch (token[0]) {
 		case 'STRNUM':
-			if (~'-+'.indexOf(sig = token[1].charAt(0))) {
-				token[1] = token[1].slice(1);
+			if (~'-+'.indexOf(sig = token[1][0])) {
+				token[1] = token[1].substring(1);
 				tokens.splice(i++, 0, ['+-', sig, token[2], token[3]]);
 			}
 			if (token.callable) {
@@ -6744,7 +6753,16 @@ function expandLiterals(tokens){
 		case 'RANGE':
 			lno = token[2];
 			cno = token[3];
-			if (fromNum != null || (tokens[i - 1][0] === '[' && tokens[i + 1][0] === 'STRNUM' && ((tokens[i + 2][0] === ']' && (((ref4$ = tokens[i + 1][1].charAt(0)) === "'" || ref4$ === '"'))) || (tokens[i + 2][0] === 'RANGE_BY' && ((ref2$ = tokens[i + 3]) != null ? ref2$[0] : void 8) === 'STRNUM' && ((ref3$ = tokens[i + 4]) != null ? ref3$[0] : void 8) === ']')))) {
+			if (fromNum != null || (
+				tokens[i - 1][0] === '[' && tokens[i + 1][0] === 'STRNUM' && (
+					(tokens[i + 2][0] === ']' && (((ref4$ = tokens[i + 1][1].charAt(0)) === "'" || ref4$ === '"'))) || (
+						tokens[i + 2][0] === 'RANGE_BY' &&
+						((ref2$ = tokens[i + 3]) != null ? ref2$[0] : void 8) === 'STRNUM' &&
+						((ref3$ = tokens[i + 4]) != null ? ref3$[0] : void 8) === ']'
+					)
+				)
+			)) {
+				isLoop = false;
 				if (fromNum == null) {
 					ref4$ = decode(token[1], lno), fromNum = ref4$[0], char = ref4$[1];
 				}
@@ -6760,26 +6778,32 @@ function expandLiterals(tokens){
 				} else if (fromNum > toNum) {
 					byNum = -1;
 				}
-				ts = [];
-				enc = char ? character : String;
-				add = fn$;
-				if (token.op === 'to') {
-					for (i$ = fromNum; byNum < 0 ? i$ >= toNum : i$ <= toNum; i$ += byNum) {
-						n = i$;
-						add();
-					}
+				guessLen = Math.abs(toNum - fromNum) + 1;
+				if (guessLen > 32) {
+					isLoop = true;
 				} else {
-					for (i$ = fromNum; byNum < 0 ? i$ > toNum : i$ < toNum; i$ += byNum) {
-						n = i$;
-						add();
+					ts = [];
+					enc = char ? character : String;
+					add = fn$;
+					if (token.op === 'to') {
+						for (i$ = fromNum; byNum < 0 ? i$ >= toNum : i$ <= toNum; i$ += byNum) {
+							n = i$;
+							add();
+						}
+					} else {
+						for (i$ = fromNum; byNum < 0 ? i$ > toNum : i$ < toNum; i$ += byNum) {
+							n = i$;
+							add();
+						}
 					}
+					ts.pop() || carp('empty range', lno);
+					tokens.splice.apply(tokens, [i, 2 + 2 * byp].concat(arrayFrom$(ts)));
+					i += ts.length - 1;
 				}
-				ts.pop() || carp('empty range', lno);
-				tokens.splice.apply(tokens, [i, 2 + 2 * byp].concat(arrayFrom$(ts)));
-				i += ts.length - 1;
-			} else {
+			}
+			if (isLoop) {
 				token[0] = 'STRNUM';
-				if (((ref6$ = tokens[i + 2]) != null ? ref6$[0] : void 8) === 'RANGE_BY') {
+				if (((ref6$ = tokens[i + 2]) && ref6$[0]) === 'RANGE_BY') {
 					tokens.splice(i + 2, 1, ['BY', 'by', lno, cno]);
 				}
 				tokens.splice(i + 1, 0, ['TO', token.op, lno, cno]);
@@ -6837,7 +6861,7 @@ function expandLiterals(tokens){
 		}
 	}
 	function fn$(){
-		if (0x10000 < ts.push(['STRNUM', enc(n), lno, cno], [',', ',', lno, cno])) {
+		if (65536 < ts.push(['STRNUM', enc(n), lno, cno], [',', ',', lno, cno])) {
 			carp('range limit exceeded', lno);
 		}
 	}
