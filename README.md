@@ -1,3 +1,9 @@
+# 1.4.6
+- Loại bỏ tính năng tự bind hàm ~> trong class vì gây ra lỗi khi dùng dynamic key
+- Quay lại dùng hàm bind$ vì obj đc bind khi là biểu thức sẽ phải viết 2 lần, có thể viết lại dùng biến tạm thời ref$ nhưng thôi, compile bind pb 1.4.5 cũng viết sai
+- Loại bỏ tham số thứ 3 "target" của hàm bind$ vì đã loại bỏ tính năng tự bind hàm trong class
+- Sửa hàm compile splice cú pháp array splice
+
 # 1.4.5
 - Báo lỗi khi accessor dùng arrow function, tại JS k hỗ trợ
 - Sửa lỗi biến "isLoop" sai làm k compile đc range ký tự

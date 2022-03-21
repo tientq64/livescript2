@@ -4,8 +4,8 @@ do !->
 	na = 40 / 8 + -4.5gb % a(0, 1) %% 2 ^ 5 ** 6 ? void - yes
 	na += 10 + t: 20
 	na .= 2 + "hi#@45#f1^n" + 'ok#d'
-	b = [...c]~d in [e, \f]
-	r = {...obb}
+	b = [...c]~map in [e, \f]
+	r = a{...obb}
 	c? = \lol in na in [\d 2 e] of Arr
 	d = not ^^u is 4 and c isnt 5 or [ef > 4 f? <? 12] xor imp xor sx
 	str = \hi * 6
@@ -13,17 +13,29 @@ do !->
 	n = [4 to 6 by 2]
 	s = [\a to \Z]
 	l = arr[3 to 8]
+	f[4 to g] = q %% p
+	a[t %% 3 to x xor 1 %% 4] = c
 	md = NaN * \| + cc / "mn" - \ba ++ \uy
 	prop = obj.name\hu .g.7[void]toStr[* - 2]{4}{yy}
 	[name = 4, ccs] = desarr
 	{sd: {tys}} = mkmk: 0
+	{ad || 0, r} = (sd + rg): a = 1
 
 	typeof! /^/
+	delete! name
+	a = delete na.me
 
+	a = c %% f.v.b
 	voz = vivo with
 		name: 4
 		c = \sd
-		f: c
+		f: (not)
+		g: (.name is @app)
+		h: (@app.)
+		i: (%%)
+		j: (&& @app)
+		k: (@app ||)
+		l: (is /gh/i)
 
 	arrobj =
 		* name: "Cửa sổ"
@@ -109,7 +121,7 @@ do !->
 
 	class Cat extends Animal implements Runable, Eatable
 		prvt = 2
-		(name, @type) ->
+		(name, @type) ~>
 			super ...
 			@name = name
 			@_hp = 100
@@ -124,8 +136,11 @@ do !->
 			yes
 		"sleep^sd": !~>
 			@a?!
-		jump: ~>
+		"jump": ~>
 			super ...
+		(a + c): ~> it
+		(key$ = F!): ~> key$
+		1km: (.sd)
 		err: (.)
 		@sound = \meow
 		@getSound = ->

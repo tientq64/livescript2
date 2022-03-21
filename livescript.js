@@ -1187,7 +1187,7 @@ exports.Chain = Chain = (function(superclass){
 			}
 		}
 		if (hasPartial) {
-			util('slice');
+			// util('slice');
 			pre = [];
 			rest = [];
 			for (i$ = 0, len$ = tails.length; i$ < len$; ++i$) {
@@ -1344,7 +1344,7 @@ exports.Chain = Chain = (function(superclass){
 			that.symbol = '';
 			obj = Chain(this.head, tails.splice(0, i)).unwrap();
 			key = tails.shift().key;
-			call = Call.make(JS('Function.prototype.bind.call'), [obj, (key.reserved = true, key)]);
+			call = Call.make(Util('bind'), [obj, (key.reserved = true, key)]);
 			this.head = this.newed ? Parens(call, true) : call;
 			i = -1;
 		}
@@ -2719,7 +2719,7 @@ exports.Assign = Assign = (function(superclass){
 		ref$ = Chain(this.left.from).cacheReference(o), fromExpNode = ref$[0], fromExp = ref$[1];
 		ref$ = Chain(this.right).cacheReference(o), rightNode = ref$[0], right = ref$[1];
 		toExp = Binary('-', this.left.to, fromExp);
-		return sn(this, Block([Chain(Var(util('splice'))).add(Index(Key('apply'), '.', true)).add(Call([this.left.target, Chain(Arr([fromExpNode, toExp])).add(Index(Key('concat'), '.', true)).add(Call([rightNode]))])), right]).compile(o, LEVEL_LIST));
+		return sn(this, Block([Chain(JS('[].splice')).add(Index(Key('apply'), '.', true)).add(Call([this.left.target, Chain(fromExpNode).add(Literal(', ')).add(toExp).add(Literal(', ')).add(rightNode)])), right]).compile(o, LEVEL_LIST));
 	};
 	Assign.prototype.compileSpread = function(o, left){
 		var that, ref$, rite, rref, this$ = this;
@@ -3392,19 +3392,19 @@ exports.Class = Class = (function(superclass){
 				if (!(prop.val instanceof Fun || prop.accessor)) {
 					continue;
 				}
-				if (key.isComplex()) {
-					key = Var(o.scope.temporary('key'));
-					prop.key = Assign(key, prop.key);
-				}
-				if (prop.val.bound) {
-					if (prop.val.curried) {
-						curriedBoundFuncs.push(prop.key);
-					} else {
-						boundFuncs.push(prop.key);
-					}
-					prop.val.bound = false;
-					prop.val.classBound = true;
-				}
+				// if (key.isComplex()) {
+				// 	key = Var(o.scope.temporary('key'));
+				// 	prop.key = Assign(key, prop.key);
+				// }
+				// if (prop.val.bound) {
+				// 	if (prop.val.curried) {
+				// 		curriedBoundFuncs.push(prop.key);
+				// 	} else {
+				// 		boundFuncs.push(prop.key);
+				// 	}
+				// 	prop.val.bound = false;
+				// 	prop.val.classBound = true;
+				// }
 				for (i$ = 0, len$ = (ref$ = [].concat(prop.val)).length; i$ < len$; ++i$) {
 					v = ref$[i$];
 					v.meth = key;
@@ -3440,10 +3440,10 @@ exports.Class = Class = (function(superclass){
 		ctor.name = name;
 		ctor.ctor = true;
 		ctor.statement = true;
-		for (i$ = 0, len$ = boundFuncs.length; i$ < len$; ++i$) {
-			f = boundFuncs[i$];
-			ctor.body.lines.unshift(Assign(Chain(Literal('this')).add(Index(f)), Chain(Literal('this')).add(Index(f)).add(Index(Key('bind'))).add(Call([Literal('this')]))));
-		}
+		// for (i$ = 0, len$ = boundFuncs.length; i$ < len$; ++i$) {
+		// 	f = boundFuncs[i$];
+		// 	ctor.body.lines.unshift(Assign(Chain(Literal('this')).add(Index(f)), Chain(Literal('this')).add(Index(f)).add(Index(Key('bind'))).add(Call([Literal('this')]))));
+		// }
 		// for (i$ = 0, len$ = curriedBoundFuncs.length; i$ < len$; ++i$) {
 		// 	f = curriedBoundFuncs[i$];
 		// 	ctor.body.lines.unshift(Assign(Chain(Literal('this')).add(Index(Key("_" + f.name))), Chain(Var(util('curry'))).add(Call([Chain(Var('prototype')).add(Index(f)), Var('true')]))), Assign(Chain(Literal('this')).add(Index(f)), Chain(Var(util('bind'))).add(Call([Literal('this'), Literal("'_" + f.name + "'")]))));
@@ -4875,27 +4875,28 @@ function VOID(){}
 UTILS = {
 	clone: 'function(it){\n  function fun(){} fun.prototype = it;\n  return new fun;\n}',
 	extend: "function(sub, sup){\n  function fun(){} fun.prototype = (sub.superclass = sup).prototype;\n  (sub.prototype = new fun).constructor = sub;\n  if (typeof sup.extended == 'function') sup.extended(sub);\n  return sub;\n}",
-	bind: 'function(obj, key, target){\n  return (target || obj)[key].bind(obj);\n}',
-	import: 'Object.assign',
-	importAll: 'Object.assign',
+	// bind: 'function(obj, key, target){\n  return (target || obj)[key].bind(obj);\n}',
+	bind: 'function(obj, key){\n  return obj[key].bind(obj);\n}',
+	// import: 'Object.assign',
+	// importAll: 'Object.assign',
 	copyWithout: 'function(src, ex){\n  var obj = {}, own = {}.hasOwnProperty;\n  for (var key in src) if (own.call(src, key) && !own.call(ex, key)) obj[key] = src[key];\n  return obj;\n}',
 	repeatString: 'function(str, n){\n  return str.repeat(n < 0 ? 0 : n);\n}',
 	repeatArray: 'function(arr, n){\n  for (var r = []; n-- > 0;) r.push(...arr);\n  return r;\n}',
-	in: 'function(x, xs){\n  return [].includes.call(xs, x);\n}',
+	// in: 'function(x, xs){\n  return [].includes.call(xs, x);\n}',
 	out: "typeof exports != 'undefined' && exports || this",
-	curry: 'function(f, bound){\n  var context,\n  _curry = function(args) {\n    return f.length > 1 ? function(){\n      var params = args ? args.concat() : [];\n      context = bound ? context || this : this;\n      return params.push.apply(params, arguments) <\n          f.length && arguments.length ?\n        _curry.call(context, params) : f.apply(context, params);\n    } : f;\n  };\n  return _curry();\n}',
+	// curry: 'function(f, bound){\n  var context,\n  _curry = function(args) {\n    return f.length > 1 ? function(){\n      var params = args ? args.concat() : [];\n      context = bound ? context || this : this;\n      return params.push.apply(params, arguments) <\n          f.length && arguments.length ?\n        _curry.call(context, params) : f.apply(context, params);\n    } : f;\n  };\n  return _curry();\n}',
 	flip: 'function(f){\n  return curry$(function (x, y) { return f(y, x); });\n}',
 	partialize: 'function(f, args, where){\n  var context = this;\n  return function(){\n    var params = slice$.call(arguments), i,\n        len = params.length, wlen = where.length,\n        ta = args ? args.concat() : [], tw = where ? where.concat() : [];\n    for(i = 0; i < len; ++i) { ta[tw[0]] = params[i]; tw.shift(); }\n    return len < wlen && len ?\n      partialize$.apply(context, [f, ta, tw]) : f.apply(context, ta);\n  };\n}',
-	not: 'function(x){ return !x; }',
+	// not: 'function(x){ return !x; }',
 	compose: 'function() {\n  var functions = arguments;\n  return function() {\n    var i, result;\n    result = functions[0].apply(this, arguments);\n    for (i = 1; i < functions.length; ++i) {\n      result = functions[i](result);\n    }\n    return result;\n  };\n}',
 	deepEq: "function(x, y, type){\n  var toString = {}.toString, hasOwnProperty = {}.hasOwnProperty,\n      has = function (obj, key) { return hasOwnProperty.call(obj, key); };\n  var first = true;\n  return eq(x, y, []);\n  function eq(a, b, stack) {\n    var className, length, size, result, alength, blength, r, key, ref, sizeB;\n    if (a == null || b == null) { return a === b; }\n    if (a.__placeholder__ || b.__placeholder__) { return true; }\n    if (a === b) { return a !== 0 || 1 / a == 1 / b; }\n    className = toString.call(a);\n    if (toString.call(b) != className) { return false; }\n    switch (className) {\n      case '[object String]': return a == String(b);\n      case '[object Number]':\n        return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);\n      case '[object Date]':\n      case '[object Boolean]':\n        return +a == +b;\n      case '[object RegExp]':\n        return a.source == b.source &&\n               a.global == b.global &&\n               a.multiline == b.multiline &&\n               a.ignoreCase == b.ignoreCase;\n    }\n    if (typeof a != 'object' || typeof b != 'object') { return false; }\n    length = stack.length;\n    while (length--) { if (stack[length] == a) { return true; } }\n    stack.push(a);\n    size = 0;\n    result = true;\n    if (className == '[object Array]') {\n      alength = a.length;\n      blength = b.length;\n      if (first) {\n        switch (type) {\n        case '===': result = alength === blength; break;\n        case '<==': result = alength <= blength; break;\n        case '<<=': result = alength < blength; break;\n        }\n        size = alength;\n        first = false;\n      } else {\n        result = alength === blength;\n        size = alength;\n      }\n      if (result) {\n        while (size--) {\n          if (!(result = size in a == size in b && eq(a[size], b[size], stack))){ break; }\n        }\n      }\n    } else {\n      if ('constructor' in a != 'constructor' in b || a.constructor != b.constructor) {\n        return false;\n      }\n      for (key in a) {\n        if (has(a, key)) {\n          size++;\n          if (!(result = has(b, key) && eq(a[key], b[key], stack))) { break; }\n        }\n      }\n      if (result) {\n        sizeB = 0;\n        for (key in b) {\n          if (has(b, key)) { ++sizeB; }\n        }\n        if (first) {\n          if (type === '<<=') {\n            result = size < sizeB;\n          } else if (type === '<==') {\n            result = size <= sizeB\n          } else {\n            result = size === sizeB;\n          }\n        } else {\n          first = false;\n          result = size === sizeB;\n        }\n      }\n    }\n    stack.pop();\n    return result;\n  }\n}",
-	arrayFrom: 'Array.from',
-	split: "''.split",
-	replace: "''.replace",
-	toString: '{}.toString',
-	join: '[].join',
-	slice: '[].slice',
-	splice: '[].splice'
+	// arrayFrom: 'Array.from',
+	// split: "''.split",
+	// replace: "''.replace",
+	// toString: '{}.toString',
+	// join: '[].join',
+	// slice: '[].slice',
+	// splice: '[].splice'
 };
 LEVEL_TOP = 0;
 LEVEL_PAREN = 1;
@@ -4979,7 +4980,7 @@ parser.lexer = {
 		return '';
 	}
 };
-exports.VERSION = '1.4.5';
+exports.VERSION = '1.4.6';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, mapPath, base64;
 	code = code.replace(/(?<=^|\n)\t+/g, s => '  '.repeat(s.length))
