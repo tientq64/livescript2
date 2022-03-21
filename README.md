@@ -1,3 +1,13 @@
+# 1.4.5
+- Báo lỗi khi accessor dùng arrow function, tại JS k hỗ trợ
+- Sửa lỗi biến "isLoop" sai làm k compile đc range ký tự
+- Sửa lỗi bind method trong class sai khi tên method là ký tự đặc biệt
+- Chuyển các hàm import$, importAll$, in$, bind$, arrayFrom$, toString$, replace$, join$, split$, not$ thành hàm đơn giản, k dùng như hàm util nữa, những hàm k dùng nữa bị xóa bỏ
+- Viết lại mấy hàm partial, tất cả đều là arrow function
+
+# 1.4.4
+- Range ký tự bây h sẽ dùng vòng lặp khi > 32 ký tự, k như trc tạo ra một mảng ký tự khổng lồ
+
 # 1.4.3
 - Sửa compile hàm static trong class k đúng
 - Hàm mũi tên nếu có một tham số và k phải là spread thì tham số sẽ k có cặp dấu ngoặc
