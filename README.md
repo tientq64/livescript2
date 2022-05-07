@@ -1,3 +1,8 @@
+# 1.4.7
+- Sửa dòng 617, hàm mũi tên thành hàm bthg, vì có this ở trong
+- Hàm bọc cao nhất bây giờ sẽ chèn bằng code livescript chứ k chèn bằng code js nữa, điều này cx loại bỏ dấu ; ở trc hàm bọc, cx đc tại vì các thư viện minify code sẽ loại bỏ dấu ; đó, còn dùng dấu ! thì nếu eval code sẽ k lấy đc giá trị đánh giá trả về (khi dùng lệnh return)
+- Đổi font trang web sang "Programma"
+
 # 1.4.6
 - Loại bỏ tính năng tự bind hàm ~> trong class vì gây ra lỗi khi dùng dynamic key
 - Quay lại dùng hàm bind$ vì obj đc bind khi là biểu thức sẽ phải viết 2 lần, có thể viết lại dùng biến tạm thời ref$ nhưng thôi, compile bind pb 1.4.5 cũng viết sai

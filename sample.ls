@@ -25,7 +25,7 @@ do !->
 	@item = @items.find (?value is @attrs.value)
 	if a = b
 		789
-	"\u0065ag\u4E0dr\u{45}v\u{1f5c6}\u{ffff}fm\xa0 \041"
+	"\u0065ag\u4E0dr\u{45}v\u{1f5c6}\u{ffff}fm\xa0\" \041"
 	asd = mi (a = 8, {b: [...a]}, ...c) !~>
 		c++
 		c = 4
@@ -81,6 +81,7 @@ do !->
 	num /= 8 ** hex
 	num /= Math.ceil 41 + 3
 	num %%= 8 + hex
+	bun = er = ~> 12
 	regex = /asdm78*(?=sd).+\//gsuo
 	//# qqq_r
 		h \  a\s|[ ]  \   # hasid

@@ -614,7 +614,7 @@ exports.Block = Block = (function(superclass){
 		var ref$;
 		return this.lines.length > 1 || ((ref$ = this.lines[0]) != null ? ref$.isComplex() : void 8);
 	};
-	prototype.delegate(['isCallable', 'isArray', 'isString', 'isRegex'], it => {
+	prototype.delegate(['isCallable', 'isArray', 'isString', 'isRegex'], function(it) {
 		var ref$, ref1$;
 		return (ref$ = (ref1$ = this.lines)[ref1$.length - 1]) != null ? ref$[it]() : void 8;
 	});
@@ -682,7 +682,10 @@ exports.Block = Block = (function(superclass){
 			this.scope = Scope.root = o.scope = that.savedScope || (that.savedScope = o.scope);
 		}
 		delete o.filename;
-		o.indent = (bare = (ref$ = o.bare, delete o.bare, ref$)) ? '' : TAB;
+		// o.indent = (bare = (ref$ = o.bare, delete o.bare, ref$)) ? '' : TAB;
+		bare = o.bare;
+		delete o.bare;
+		o.indent = '';
 		if (/^\s*(?:#!|javascript:)/.test((ref$ = this.lines[0]) != null ? ref$.code : void 8)) {
 			prefix = this.lines.shift().code + '\n';
 		}
@@ -697,7 +700,6 @@ exports.Block = Block = (function(superclass){
 			}
 		}
 		code = [this.compileWithDeclarations(o)];
-		bare || (code = [";(async function(){\n", code, "\n}).call(this);\n"]);
 		return sn(null, prefix || [], options.header || [], comment || [], code);
 	};
 	Block.prototype.compileWithDeclarations = function(o){
@@ -1456,7 +1458,7 @@ exports.Call = Call = (function(superclass){
 	} function ctor$(){} ctor$.prototype = prototype;
 	Call.prototype.children = ['args'];
 	Call.prototype.show = function(){
-		return [this['new']] + [this.method] + [this.soak ? '?' : void 8];
+		return [this.new] + [this.method] + [this.soak ? '?' : void 8];
 	};
 	Call.prototype.compile = function(o){
 		var code, i$, ref$, len$, i, a;
@@ -1505,7 +1507,7 @@ exports.Call = Call = (function(superclass){
 		}
 		return node.back = (args[index] = fun).body, node;
 	};
-	Call['let'] = function(args, body){
+	Call.let = function(args, body){
 		var hasYield, hasAwait, params, i$, len$, a, that, gotThis;
 		hasYield = false;
 		hasAwait = false;
@@ -2025,7 +2027,7 @@ exports.Unary = Unary = (function(superclass){
 		case 'jsdelete':
 			return sn(this, "delete ", it.compile(o, LEVEL_LIST));
 		case 'classof':
-			return sn(this, "({}).toString.call(", it.compile(o, LEVEL_LIST), ").slice(8, -1)");
+			return sn(this, this.front ? "({})" : "{}", ".toString.call(", it.compile(o, LEVEL_LIST), ").slice(8, -1)");
 		}
 		code = [it.compile(o, LEVEL_OP + PREC.unary)];
 		if (this.post) {
@@ -3655,7 +3657,7 @@ exports.Splat = Splat = (function(superclass){
 				if (it.isEmpty()) {
 					nodes.splice(index--, 1);
 				} else if (it instanceof Arr) {
-					nodes.splice.apply(nodes, [index, 1].concat(arrayFrom$(expand(it.items))));
+					nodes.splice(index, 1, ...expand(it.items));
 					index += it.items.length - 1;
 				}
 			}
@@ -4802,12 +4804,9 @@ ref$.temporary = function(name){
 	while ((ref$ = this.variables[name + "$."]) !== 'reuse' && ref$ !== void 8) {
 		name = name.length < 2 && name < 'z'
 			? String.fromCharCode(name.charCodeAt() + 1)
-			: name.replace(/\d*$/, fn$);
+			: name.replace(/\d*$/, it => ++it);
 	}
 	return this.add(name + '$', 'var');
-	function fn$(it){
-		return ++it;
-	}
 };
 ref$.free = function(name){
 	return this.add(name, 'reuse');
@@ -4980,10 +4979,9 @@ parser.lexer = {
 		return '';
 	}
 };
-exports.VERSION = '1.4.6';
+exports.VERSION = '1.4.7';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, mapPath, base64;
-	code = code.replace(/(?<=^|\n)\t+/g, s => '  '.repeat(s.length))
 	options == null && (options = {});
 	options.warn == null && (options.warn = true);
 	options.header == null && (options.header = true);
@@ -4999,6 +4997,11 @@ exports.compile = function(code, options){
 			}))();
 			return JSON.stringify(result, null, 2) + "\n";
 		} else {
+			code = code.replace(/(?<=^|\n)\t*(?!\n|$)/g, s => '  '.repeat(s.length + !options.bare))
+			if (!options.bare) {
+				code = "(!->\n" + code + "\n) @"
+			}
+			console.log(code)
 			ast = parser.parse(lexer.lex(code));
 			if (options.run && options.print) {
 				ast.makeReturn();
@@ -5906,7 +5909,10 @@ exports.doLiteral = function(code, index){
 			this.last[0] = 'GENERATOR';
 			return sym.length;
 		}
-		if (that = ((ref$ = this.last[0]) === 'NEWLINE' || ref$ === 'INDENT' || ref$ === 'THEN' || ref$ === '=>') && (INLINEDENT.lastIndex = index + 1, INLINEDENT).exec(code)[0].length) {
+		if (
+			that = ((ref$ = this.last[0]) === 'NEWLINE' || ref$ === 'INDENT' || ref$ === 'THEN' || ref$ === '=>') &&
+			(INLINEDENT.lastIndex = index + 1, INLINEDENT).exec(code)[0].length
+		) {
 			this.tokens.push(['LITERAL', 'void', this.line, this.column], ['ASSIGN', '=', this.line, this.column]);
 			this.indent(index + that - 1 - this.dent - code.lastIndexOf('\n', index - 1));
 			return that;
