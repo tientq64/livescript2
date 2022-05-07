@@ -4979,7 +4979,7 @@ parser.lexer = {
 		return '';
 	}
 };
-exports.VERSION = '1.4.7';
+exports.VERSION = '1.4.8';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, mapPath, base64;
 	options == null && (options = {});
@@ -5001,7 +5001,6 @@ exports.compile = function(code, options){
 			if (!options.bare) {
 				code = "(!->\n" + code + "\n) @"
 			}
-			console.log(code)
 			ast = parser.parse(lexer.lex(code));
 			if (options.run && options.print) {
 				ast.makeReturn();

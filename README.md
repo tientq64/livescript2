@@ -1,3 +1,6 @@
+# 1.4.8
+- Xóa mã thử console.log quên chưa xóa
+
 # 1.4.7
 - Sửa dòng 617, hàm mũi tên thành hàm bthg, vì có this ở trong
 - Hàm bọc cao nhất bây giờ sẽ chèn bằng code livescript chứ k chèn bằng code js nữa, điều này cx loại bỏ dấu ; ở trc hàm bọc, cx đc tại vì các thư viện minify code sẽ loại bỏ dấu ; đó, còn dùng dấu ! thì nếu eval code sẽ k lấy đc giá trị đánh giá trả về (khi dùng lệnh return)
