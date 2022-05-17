@@ -1,3 +1,6 @@
+# 1.4.9
+- Đổi font trang web lại thành "PragmataPro Mono"
+
 # 1.4.8
 - Xóa mã thử console.log quên chưa xóa
 
