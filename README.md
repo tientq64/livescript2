@@ -1,3 +1,7 @@
+# 1.4.10
+- Viết lại cli bằng livescript
+- Thêm lệnh cli compile tập tin
+
 # 1.4.9
 - Đổi font trang web lại thành "PragmataPro Mono"
 
