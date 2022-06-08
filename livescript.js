@@ -4979,7 +4979,7 @@ parser.lexer = {
 		return '';
 	}
 };
-exports.VERSION = '1.4.14';
+exports.VERSION = '1.4.15';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, mapPath, base64;
 	options == null && (options = {});

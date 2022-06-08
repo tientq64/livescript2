@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-__dirname = process.cwd();
+global.__dirname = process.cwd();
+global.module = module;
 (function(){
   var fs, path, yargs, livescript, argv, ref$, src, dist, bare, header, code, filepath;
   fs = require('fs');

@@ -1,4 +1,5 @@
-``__dirname = process.cwd();``
+global.__dirname = process.cwd!
+global.module = module
 let
 	require! {
 		fs

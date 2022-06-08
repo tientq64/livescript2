@@ -1,1 +1,1 @@
-console.log yargs
+console.log __dirname
