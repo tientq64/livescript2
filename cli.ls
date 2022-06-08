@@ -43,11 +43,11 @@ switch
 			header: header
 		fs.writeFileSync dist, code
 else
-	eval let
+	eval let require
 		[filepath] = argv._
 		if filepath
 			require2 = require
-			global.require = (file) ->
+			require = global.require = (file) ->
 				if /^\.{0,2}\//test file
 					require2 path.resolve __dirname, file
 				else

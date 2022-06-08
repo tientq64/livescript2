@@ -1,3 +1,6 @@
+# 1.4.11
+- Thêm biến require cục bộ trong hàm eval trong cli
+
 # 1.4.10
 - Viết lại cli bằng livescript
 - Thêm lệnh cli compile tập tin

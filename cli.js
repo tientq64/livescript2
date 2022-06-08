@@ -44,12 +44,12 @@ case !argv.compile:
   }
   break;
 default:
-  eval((function(){
+  eval((function(require){
     var filepath, require2, code;
     filepath = argv._[0];
     if (filepath) {
       require2 = require;
-      global.require = function(file){
+      require = global.require = function(file){
         if (/^\.{0,2}\//.test(file)) {
           return require2(path.resolve(__dirname, file));
         } else {
@@ -64,5 +64,5 @@ default:
       code = livescript.compile(code);
       return code;
     }
-  }.call(this)));
+  }.call(this, require)));
 }
