@@ -1,5 +1,3 @@
-global.__dirname = process.cwd!
-global.module = module
 let
 	require! {
 		fs
@@ -31,30 +29,34 @@ let
 		.alias \v \version
 	switch
 	| argv.compile
-		if argv.compile.length < 2
-			throw Error "Missing <src> or <dist> args"
-		else
-			[src, dist] = argv.compile
-			{bare, header} = argv
-			src = path.resolve __dirname, src
-			dist = path.resolve __dirname, dist
-			header = no if argv.n
-			code = fs.readFileSync src, \utf8
-			code = livescript.compile code,
-				bare: bare
-				header: header
-			fs.writeFileSync dist, code
+		let
+			if argv.compile.length < 2
+				throw Error "Missing <src> or <dist> args"
+			else
+				[src, dist] = argv.compile
+				{bare, header} = argv
+				src = path.resolve __dirname, src
+				dist = path.resolve __dirname, dist
+				header = no if argv.n
+				code = fs.readFileSync src, \utf8
+				code = livescript.compile code,
+					bare: bare
+					header: header
+				fs.writeFileSync dist, code
 	else
-		[filepath] = argv._
-		if filepath
-			global.require = (file) ->
-				if /^\.{0,2}\//test file
-					module.require path.resolve __dirname, file
-				else
-					module.require file
-			if not filepath.endsWith \.ls
-				filepath += \.ls
-			filepath = path.resolve __dirname, filepath
-			code = fs.readFileSync filepath, \utf8
-			code = livescript.compile code
-			global.eval code
+		let
+			[filepath] = argv._
+			if filepath
+				require = global.require = (file) ->
+					if /^\.{0,2}\//test file
+						module.require path.resolve __dirname, file
+					else
+						module.require file
+				if not filepath.endsWith \.ls
+					filepath += \.ls
+				filepath = path.resolve __dirname, filepath
+				code = fs.readFileSync filepath, \utf8
+				code = livescript.compile code
+				code = "delete code;#code"
+				do (fs, path, yargs, livescript, argv, filepath) !->
+					eval code

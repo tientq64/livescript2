@@ -1,3 +1,6 @@
+# 1.4.16
+- Không dùng global.eval trong cli nữa, mà dùng eval
+
 # 1.4.15
 - Đặt global.__dirname, global.module trong cli
 

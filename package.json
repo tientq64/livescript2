@@ -1,6 +1,6 @@
 {
 	"name": "livescript2",
-	"version": "1.4.15",
+	"version": "1.4.16",
 	"main": "livescript.min.js",
 	"bin": {
 		"ls2": "cli.js"

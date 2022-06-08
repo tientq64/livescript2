@@ -1,8 +1,6 @@
 #!/usr/bin/env node
-global.__dirname = process.cwd();
-global.module = module;
 (function(){
-  var fs, path, yargs, livescript, argv, ref$, src, dist, bare, header, code, filepath;
+  var fs, path, yargs, livescript, argv;
   fs = require('fs');
   path = require('path');
   yargs = require('yargs');
@@ -27,41 +25,50 @@ global.module = module;
   }).alias('h', 'help').alias('v', 'version').argv;
   switch (false) {
   case !argv.compile:
-    if (argv.compile.length < 2) {
-      throw Error("Missing <src> or <dist> args");
-    } else {
-      ref$ = argv.compile, src = ref$[0], dist = ref$[1];
-      bare = argv.bare, header = argv.header;
-      src = path.resolve(__dirname, src);
-      dist = path.resolve(__dirname, dist);
-      if (argv.n) {
-        header = false;
+    (function(){
+      var ref$, src, dist, bare, header, code;
+      if (argv.compile.length < 2) {
+        throw Error("Missing <src> or <dist> args");
+      } else {
+        ref$ = argv.compile, src = ref$[0], dist = ref$[1];
+        bare = argv.bare, header = argv.header;
+        src = path.resolve(__dirname, src);
+        dist = path.resolve(__dirname, dist);
+        if (argv.n) {
+          header = false;
+        }
+        code = fs.readFileSync(src, 'utf8');
+        code = livescript.compile(code, {
+          bare: bare,
+          header: header
+        });
+        fs.writeFileSync(dist, code);
       }
-      code = fs.readFileSync(src, 'utf8');
-      code = livescript.compile(code, {
-        bare: bare,
-        header: header
-      });
-      fs.writeFileSync(dist, code);
-    }
+    }.call(this));
     break;
   default:
-    filepath = argv._[0];
-    if (filepath) {
-      global.require = function(file){
-        if (/^\.{0,2}\//.test(file)) {
-          return module.require(path.resolve(__dirname, file));
-        } else {
-          return module.require(file);
+    (function(){
+      var filepath, require, code;
+      filepath = argv._[0];
+      if (filepath) {
+        require = global.require = function(file){
+          if (/^\.{0,2}\//.test(file)) {
+            return module.require(path.resolve(__dirname, file));
+          } else {
+            return module.require(file);
+          }
+        };
+        if (!filepath.endsWith('.ls')) {
+          filepath += '.ls';
         }
-      };
-      if (!filepath.endsWith('.ls')) {
-        filepath += '.ls';
+        filepath = path.resolve(__dirname, filepath);
+        code = fs.readFileSync(filepath, 'utf8');
+        code = livescript.compile(code);
+        code = "delete code;" + code;
+        (function(fs, path, yargs, livescript, argv, filepath){
+          eval(code);
+        })();
       }
-      filepath = path.resolve(__dirname, filepath);
-      code = fs.readFileSync(filepath, 'utf8');
-      code = livescript.compile(code);
-      global.eval(code);
-    }
+    }.call(this));
   }
 }.call(this));

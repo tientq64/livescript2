@@ -4979,7 +4979,7 @@ parser.lexer = {
 		return '';
 	}
 };
-exports.VERSION = '1.4.15';
+exports.VERSION = '1.4.16';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, mapPath, base64;
 	options == null && (options = {});
@@ -4999,7 +4999,7 @@ exports.compile = function(code, options){
 		} else {
 			code = code.replace(/(?<=^|\n)\t*(?!\n|$)/g, s => '  '.repeat(s.length + !options.bare))
 			if (!options.bare) {
-				code = "(!->\n" + code + "\n) @\n"
+				code = "(!->\n" + code + "\n) @"
 			}
 			ast = parser.parse(lexer.lex(code));
 			if (options.run && options.print) {
@@ -5026,11 +5026,11 @@ exports.compile = function(code, options){
 					} else {
 						base64 = btoa(base64);
 					}
-					result.code += "\n//# sourceMappingURL=data:application/json;base64," + base64;
+					result.code += "\n//# sourceMappingURL=data:application/json;base64," + base64 + "\n";
 				}
 				return result;
 			} else {
-				return output.toString();
+				return output.toString() + "\n";
 			}
 		}
 	} catch (e) {
