@@ -1,3 +1,4 @@
+``__dirname = process.cwd();``
 let
 	require! {
 		fs

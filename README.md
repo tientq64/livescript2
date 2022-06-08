@@ -1,3 +1,6 @@
+# 1.4.17
+- Thêm __dirname trong cli
+
 # 1.4.16
 - Không dùng global.eval trong cli nữa, mà dùng eval
 

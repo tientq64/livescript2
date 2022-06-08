@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+__dirname = process.cwd();
 (function(){
   var fs, path, yargs, livescript, argv;
   fs = require('fs');
