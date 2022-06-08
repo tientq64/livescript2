@@ -1,2 +1,1 @@
-require! {\./livescript.min.js}
-console.log livescript
+console.log yargs

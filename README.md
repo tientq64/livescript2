@@ -1,3 +1,6 @@
+# 1.4.14
+- Dùng global.eval trong cli
+
 # 1.4.13
 - Dùng module.require trong hàm global.require và require đc viết lại trong cli
 
