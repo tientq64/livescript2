@@ -5,6 +5,8 @@ fs = require('fs');
 path = require('path');
 yargs = require('yargs');
 livescript = require('./livescript.min.js');
+console.log(1, __dirname);
+console.log(2, require + "");
 argv = yargs.command("ls2 <filepath>", "Run code").command("ls2 -c <src> <dist>", "Compile code").option('c', {
   alias: 'compile',
   type: 'array',
@@ -49,8 +51,11 @@ default:
     filepath = argv._[0];
     if (filepath) {
       require2 = require;
+      console.log(3, __dirname);
+      console.log(4, require + "");
       require = global.require = function(file){
         if (/^\.{0,2}\//.test(file)) {
+          console.log(5, path.resolve(__dirname, file));
           return require2(path.resolve(__dirname, file));
         } else {
           return require2(file);
@@ -60,6 +65,7 @@ default:
         filepath += '.ls';
       }
       filepath = path.resolve(__dirname, filepath);
+      console.log(6, filepath);
       code = fs.readFileSync(filepath, 'utf8');
       code = livescript.compile(code);
       return code;

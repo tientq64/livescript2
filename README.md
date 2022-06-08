@@ -1,3 +1,6 @@
+# 1.4.12
+- Thử nghiệm
+
 # 1.4.11
 - Thêm biến require cục bộ trong hàm eval trong cli
 
