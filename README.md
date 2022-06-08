@@ -1,3 +1,6 @@
+# 1.4.18
+- Thêm khoảng trắng sau dấu ngoặc nhọn của hàm
+
 # 1.4.17
 - Thêm __dirname trong cli
 

@@ -3200,10 +3200,10 @@ exports.Fun = Fun = (function(superclass){
 			code.push("(", param, ")");
 		}
 		if (isBound) {
-			code.push(' => ');
+			code.push(' =>');
 		}
 		code = [sn.apply(null, [this].concat(arrayFrom$(code)))];
-		code.push("{");
+		code.push(" {");
 		if (!snEmpty(bodyCode = body.compileWithDeclarations(o))) {
 			code.push("\n", bodyCode, "\n" + tab);
 		}
@@ -4979,7 +4979,7 @@ parser.lexer = {
 		return '';
 	}
 };
-exports.VERSION = '1.4.17';
+exports.VERSION = '1.4.18';
 exports.compile = function(code, options){
 	var result, ast, output, filename, outputFilename, mapPath, base64;
 	options == null && (options = {});
