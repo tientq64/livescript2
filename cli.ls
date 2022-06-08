@@ -5,8 +5,6 @@ require! {
 	yargs
 	\./livescript.min.js
 }
-console.log 1 __dirname
-console.log 2 require + ""
 {argv} = yargs
 	.command "ls2 <filepath>" "Run code"
 	.command "ls2 -c <src> <dist>" "Compile code"
@@ -45,22 +43,17 @@ switch
 			header: header
 		fs.writeFileSync dist, code
 else
-	eval let require
+	eval let
 		[filepath] = argv._
 		if filepath
-			require2 = require
-			console.log 3 __dirname
-			console.log 4 require + ""
 			require = global.require = (file) ->
 				if /^\.{0,2}\//test file
-					console.log 5 path.resolve __dirname, file
-					require2 path.resolve __dirname, file
+					module.require path.resolve __dirname, file
 				else
-					require2 file
+					module.require file
 			if not filepath.endsWith \.ls
 				filepath += \.ls
 			filepath = path.resolve __dirname, filepath
-			console.log 6 filepath
 			code = fs.readFileSync filepath, \utf8
 			code = livescript.compile code
 			code
