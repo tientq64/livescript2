@@ -1,3 +1,6 @@
+# 1.4.19
+- Sửa index.styl, dùng font "Input Mono Narrow", size 11pt
+
 # 1.4.18
 - Thêm khoảng trắng sau dấu ngoặc nhọn của hàm
 
