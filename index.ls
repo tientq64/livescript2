@@ -1,6 +1,6 @@
 if location.hostname is \localhost
 	delete window.livescript
-	window.eval await (await fetch \livescript.js)text!
+	window.eval await (await fetch \./livescript.js)text!
 
 if localStorage.livescript2
 	opts = JSON.parse localStorage.livescript2

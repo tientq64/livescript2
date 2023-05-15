@@ -1,0 +1,17 @@
+{
+   "version": "2.0.0",
+   "tasks": [
+      {
+         "label": "min",
+         "type": "shell",
+         "group": "build",
+         "command": "npm run min",
+         "presentation": {
+            "clear": true,
+            "reveal": "silent",
+            "revealProblems": "onProblem",
+            "showReuseMessage": false
+         }
+      }
+   ]
+}
