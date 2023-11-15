@@ -41,12 +41,23 @@ editor = CodeMirror.fromTextArea editorEl,
 	mode: \livescript
 	keyMap: \sublime
 	theme: \monokai
-	tabSize: 2
-	indentWithTabs: yes
+	tabSize: 3
+	indentUnit: 3
+	indentWithTabs: no
 	lineWrapping: yes
 	lineNumbers: yes
 	showCursorWhenSelecting: yes
+	flattenSpans: no
 	autoCloseBrackets: yes
+	styleActiveLine: yes
+	extraKeys:
+		"Tab": !~>
+			if editor.somethingSelected!
+				editor.execCommand \indentMore
+			else
+				editor.execCommand \insertSoftTab
+		"Shift-Tab": !~>
+			editor.execCommand \indentLess
 
 editor.setValue opts.code
 
@@ -68,7 +79,7 @@ editor.on \change (cm, change) !~>
 result = CodeMirror.fromTextArea resultEl,
 	mode: \javascript
 	theme: \monokai
-	tabSize: 2
+	tabSize: 3
 	lineWrapping: yes
 	lineNumbers: yes
 	readOnly: yes

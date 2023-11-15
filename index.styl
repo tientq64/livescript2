@@ -1,94 +1,135 @@
 *, *:before, *:after
-	box-sizing border-box
+	box-sizing: border-box
+	vertical-align: middle
+
 :focus
-	outline 0
+	outline: 0
+
 body
-	margin 0
-	font-family "Input Mono Narrow","PragmataPro Mono","Consolas",monospace
-	font-size 11pt
-	color #fff
-	word-break break-word
-	user-select none
+	margin: 0
+	font-family: sans-serif
+	font-size: 16px
+	color: #fff
+	word-break: break-word
+	user-select: none
+	color-scheme: dark
+	accent-color: #2563eb
+
 label
-	display inline-flex
-	column-gap 8px
-	align-items center
+	display: inline-flex
+	column-gap: 8px
+	align-items: center
 	&:not(:first-child)
-		margin-left 8px
+		margin-left: 8px
+
 input[type=checkbox]
 input[type=radio]
-	min-width 16px
-	min-height 16px
-	margin 0
+	min-width: 16px
+	min-height: 16px
+	margin: 0
+
 #main
-	position absolute
-	left 0
-	top 0
-	width 100%
-	height 100%
-	display flex
-	flex-direction column
-	overflow hidden
+	position: absolute
+	left: 0
+	top: 0
+	width: 100%
+	height: 100%
+	display: flex
+	flex-direction: column
+	overflow: hidden
+
 #topbar
-	padding 8px 24px
-	display flex
-	align-items center
+	padding: 8px 24px
+	display: flex
+	align-items: center
+
 #logo
-	margin 0 32px 0 0
+	margin: 0 32px 0 0
+
 #note
-	flex 1
-	text-align right
+	flex: 1
+	text-align: right
+
 #content
-	border-top solid 1px #0c0f17
-	flex 1
-	background #0c0f17
-	overflow hidden
+	border-top: solid 1px #0c0f17
+	flex: 1
+	background: #0c0f17
+	overflow: hidden
+
 .row
 .column
-	display flex
-	gap 1px
+	display: flex
+	gap: 1px
+
 .column
-	flex-direction column
+	flex-direction: column
 .col
-	flex 1
+	flex: 1
+
 .xw50
-	width 50%
-	max-width 50%
+	width: 50%
+	max-width: 50%
 .xh50
-	height 50%
-	max-height 50%
+	height: 50%
+	max-height: 50%
 .xh100
-	height 100%
-	max-height 100%
+	height: 100%
+	max-height: 100%
+
 .CodeMirror
-	width 100%
-	height 100%
-	font inherit
+	width: 100%
+	height: 100%
+	font: inherit
+
 .CodeMirror
 .CodeMirror-gutters
-	background #232834 !important
+	font-family: "D2Coding", "PragmataPro Mono", "Consolas", monospace
+	background: #282a39 !important
+
 .CodeMirror-linenumbers
-	width 48px
+	width: 48px
+
 .CodeMirror-linenumber
-	padding-right 7px
-	box-sizing border-box
+	padding-right: 7px
+	box-sizing: border-box
+
 .CodeMirror-cursor
-	margin-left -1px
-	border-left-width 2px !important
+	margin-left: -1px
+	border-left-width: 2px !important
+
 .CodeMirror-lines
-	padding 8px 0
-	> :first-child > :nth-child(3)
-		filter drop-shadow(-1px 0 #151921)drop-shadow(1px 0 #151921)drop-shadow(0 -1px #151921)drop-shadow(0 1px #151921)
+	padding: 8px 0
+
 .CodeMirror-selected
-	background #333c4f !important
+	background: #304e75 !important
+
 .cm-tab
-	position relative
-	border-left dotted 1px #333c4f
+	position: relative
 	&:after
-		content ""
-		position absolute
-		left 0
-		top 0
-		width calc(100% - 1px)
-		height 50%
-		border-bottom solid 1px #232834
+		content: ""
+		position: absolute
+		left: 0
+		top: 0
+		width: calc(100% - 2px)
+		height: 50%
+		border-bottom: solid 1px #282a39
+
+.cm-indent
+.cm-text
+	position: relative
+
+.cm-indent
+.cm-text:not(:has(.cm-tab))
+	&:after
+		content: ""
+		position: absolute
+		left: 0
+		top: calc(50% - 2px)
+		width: calc(100% - 1px)
+		height: 2px
+		background: linear-gradient(90deg,#0000,#0000 3px,#282a39 3px,#282a39 5px,#0000 5px,#0000 11px,#282a39 11px,#282a39 13px,#0000 13px,#0000 19px,#282a39 19px,#282a39 21px,#0000 21px)
+
+.cm-indent
+.cm-tab
+	margin-right: -2px
+	border-left: 2px dotted #434556
